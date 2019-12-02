@@ -113,7 +113,8 @@ resource "aws_instance" "wp_server" {
   ami = data.aws_ami.latest_wp.id
   instance_type = var.ec2_type
   vpc_security_group_ids = [aws_security_group.security_wp.id]
-  key_name = aws_key_pair.ssh_default.key_name
+#  key_name = aws_key_pair.ssh_default.key_name
+  key_name = "bck_wp"
   availability_zone = var.available_zone
   subnet_id = aws_subnet.subnet_wp.id
 
