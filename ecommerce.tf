@@ -155,6 +155,6 @@ resource "aws_eip" "elasticip_wp" {
 # Create AWS Key Pair
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 resource "aws_key_pair" "ssh_default" {
-    key_name = "wp_ssh"
+    key_name = "wp_key_ssh"
     public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4en3e08Qqt5W83DH9Ln2v9VKG5QLK/w8/4nAbUCNGmBXfQxjq2xrVijTWIuLHh850Nc6KhLHnOqDpTe96a0HqffkKGXpmlm+X94cM1IOikbjalwP+u9MA55hyeIz5EnRfx0zoLJuYTFLIP23JZtQ+NPI557XqMKsSmfur7UTtwHKQPaetn5du7SK+Ztxd/O0/2IEU139B2C2VMCdTBNNUGTpig5D1vR1QKvZng4kNEB34Ey23WCPpxKqO9HMqybRlJ6iLkeL65s31Gh6w5UCySNKbUX1jJpO/zmHHwxpl+Xb08e8wjesaMndsPM1QpWNhAS/1BzRJ7pYsGOYYWPB3 john@amaterasu"
 }
