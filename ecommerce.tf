@@ -108,9 +108,9 @@ resource "aws_security_group" "security_wp" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port = 21
+    from_port = var.ftp_port
     protocol = "tcp"
-    to_port = 21
+    to_port = var.ftp_port
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -122,25 +122,6 @@ resource "aws_security_group" "security_wp" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#DEPLOY AWS ROUTE53 ZONE
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-resource "aws_route53_zone" "route53_wp" {
-  name = "matiswoodenplanet.com"
-}
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#DEPLOY AWS ROUTE53 RECORD
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-resource "aws_route53_record" "www_wp" {
-  name = "www.matiswoodenplanet.com"
-  type = "A"
-  zone_id = aws_route53_zone.route53_wp.id
-  ttl = 300
-  records = [aws_eip.elasticip_wp.public_ip]
-}
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #DEPLOY EC2 WP INSTANCE
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,8 +129,7 @@ resource "aws_instance" "wp_server" {
   ami = data.aws_ami.latest_wp.id
   instance_type = var.ec2_type
   vpc_security_group_ids = [aws_security_group.security_wp.id]
-#  key_name = aws_key_pair.ssh_default.key_name
-  key_name = "bck_wp"
+  key_name = aws_key_pair.ssh_default.key_name
   availability_zone = var.available_zone
   subnet_id = aws_subnet.subnet_wp.id
 
@@ -176,7 +156,5 @@ resource "aws_eip" "elasticip_wp" {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 resource "aws_key_pair" "ssh_default" {
     key_name = "wp_ssh"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCq84AasNpR+8OPuLPqrJ6lVNUayqdrNuBHJk/yZNS1/gDr1iY7wlJsLi7bjLW2X6sw/X+cAMIhOY0MqmZyAHRSrcoO6aKHydlCYN77Hl8SxeORA51coAV5DkH7BmB3pBpxP0Q+gAL6ypOwIMsDzAUU0FDAjMV+oFEATa3oKkU24EmLyE91Nok9w53I/1N8YBXYPt2Tz7OB93MeJqTdsiQ5r5+uAUrgu8NDgRhvFEG0jx5FPJ3knJhmDrl0ogi4bgQ/xbFN6uy2ZwowXqAXImPUZ1Gpahg9U/Ycg58CYnwB3RX1pWB+OdBib8sjjz07+tB06JTOpoAl3mXLEz7q1oRNe2/bPPlO64c1R2GCIl5vzqLCfuVdWWsEMu0e7Db5WXVvK8yb2k3c4jv2MrKiqJ8npHoDvbm41kuHOipWRBbPIu5wi9+V3zBkO2rW0u8nLNH5SR0RHEdnESqNHFbyj6XagB3+qlgWxY2feSMlIcOBIgj6MYDJ6YR0qq6r4D+l268= aws_terraform_ssh_key"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4en3e08Qqt5W83DH9Ln2v9VKG5QLK/w8/4nAbUCNGmBXfQxjq2xrVijTWIuLHh850Nc6KhLHnOqDpTe96a0HqffkKGXpmlm+X94cM1IOikbjalwP+u9MA55hyeIz5EnRfx0zoLJuYTFLIP23JZtQ+NPI557XqMKsSmfur7UTtwHKQPaetn5du7SK+Ztxd/O0/2IEU139B2C2VMCdTBNNUGTpig5D1vR1QKvZng4kNEB34Ey23WCPpxKqO9HMqybRlJ6iLkeL65s31Gh6w5UCySNKbUX1jJpO/zmHHwxpl+Xb08e8wjesaMndsPM1QpWNhAS/1BzRJ7pYsGOYYWPB3 john@amaterasu"
 }
-
-

@@ -40,3 +40,4 @@ sudo mv /tmp/wordpress /var/www/html/store
 sudo mkdir /var/www/html/store/uploads
 sudo cp -p /var/www/html/store/wp-config-sample.php /var/www/html/store/wp-config.php
 sudo chown -R apache:apache /var/www/html/*
+

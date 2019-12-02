@@ -15,6 +15,9 @@ variable "https_port" {
   default = 443
 }
 
+variable "ftp_port" {
+  default = 21
+}
 data "aws_ami" "latest_wp" {
   owners = ["179966331834"]
   most_recent = true
